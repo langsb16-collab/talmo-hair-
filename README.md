@@ -1,21 +1,319 @@
-```txt
-npm install
-npm run dev
+# HairSim AI - 탈모 수술·시술 가상 시뮬레이션 플랫폼
+
+## 프로젝트 개요
+
+**HairSim AI**는 본인 사진 업로드만으로 탈모 수술·시술·치료 후 결과를 가상 시뮬레이션하는 의사결정 플랫폼입니다.
+
+### 핵심 가치 제안
+- 📸 **실제 내 얼굴로 시뮬레이션**: 본인 사진 기반 AI 분석 및 결과 예측
+- 🧠 **AI 정밀 진단**: 탈모 유형, 진행도, 필요 모낭 수 자동 계산
+- 🏥 **신뢰 병원 매칭**: 실력 검증된 병원 비교 및 상담 연결
+- 💰 **투명한 비용 정보**: 예상 비용, 생착률, 리스크 데이터 제공
+- ⭐ **실제 후기 검증**: 시뮬레이션 vs 실제 결과 비교 데이터
+
+## 공개 URL
+
+### 🌐 접속 주소
+- **개발 서버**: https://3000-itxbtwd0rrm43ssujbb8m-de59bda9.sandbox.novita.ai
+- **메인 페이지**: https://3000-itxbtwd0rrm43ssujbb8m-de59bda9.sandbox.novita.ai/
+- **AI 진단**: https://3000-itxbtwd0rrm43ssujbb8m-de59bda9.sandbox.novita.ai/diagnosis
+- **가상 시뮬레이션**: https://3000-itxbtwd0rrm43ssujbb8m-de59bda9.sandbox.novita.ai/simulation
+- **병원 매칭**: https://3000-itxbtwd0rrm43ssujbb8m-de59bda9.sandbox.novita.ai/hospitals
+- **후기**: https://3000-itxbtwd0rrm43ssujbb8m-de59bda9.sandbox.novita.ai/reviews
+
+## 현재 완료된 기능
+
+### ✅ 1. 메인 페이지
+- Hero 섹션 (플랫폼 소개 + CTA)
+- 이용 방법 4단계 소개
+- 시뮬레이션 종류 (모발이식/비수술/약물)
+- 통계 데이터 (15,000+ 시뮬레이션, 96% 만족도)
+- 반응형 네비게이션 및 푸터
+
+### ✅ 2. AI 탈모 진단 페이지 (`/diagnosis`)
+- 사진 업로드 (정면/측면/정수리)
+- 이미지 미리보기
+- AI 진단 결과 표시
+  - 탈모 유형 (M자형/O형/U자형)
+  - 진행 단계 (Norwood/Ludwig)
+  - 모발 밀도 점수
+  - 예상 필요 모낭 수
+- 권장 치료 및 예상 비용
+- 시뮬레이션/병원 매칭 연결
+
+### ✅ 3. 가상 시뮬레이션 페이지 (`/simulation`)
+- 시뮬레이션 옵션 선택
+  - 시술 종류 (모발이식/PRP/줄기세포/약물)
+  - 이식 모낭 수 (1,500~4,000모)
+  - 예측 기간 (6/12/24개월)
+- Before/After 비교 슬라이더 (UI)
+- 다중 각도 뷰 (정면/측면/정수리)
+- 예상 결과 상세 정보
+  - 생착률, 회복기간, 수술시간, 예상비용
+- 리스크 분석
+  - 생착 실패 가능성
+  - 흉터 가능성
+  - 재수술 필요성
+- PDF 저장 및 병원 찾기 연결
+
+### ✅ 4. 병원 매칭 페이지 (`/hospitals`)
+- 필터링 기능
+  - 지역, 수술방식, 가격대, 정렬
+- 병원 상세 정보 카드
+  - 평점, 원장 경력
+  - 수술 건수, 생착률
+  - 모낭 단가
+  - AI 매칭률 표시
+- 병원별 특징 태그
+- 상담 신청 및 상세 정보 버튼
+
+### ✅ 5. 후기 & 데이터 페이지 (`/reviews`)
+- 통계 개요 (수술 완료, 시뮬레이션 정확도, 만족도, 재수술률)
+- 실제 수술 후기
+  - 별점 및 리뷰어 정보
+  - Before/시뮬레이션/After 비교
+  - 시뮬레이션 정확도 표시
+  - 후기 내용 및 해시태그
+- 더 많은 후기 로드 기능
+
+### ✅ 6. API 엔드포인트
+- `GET /api/diagnose` - AI 탈모 진단 (모의 데이터)
+- `POST /api/simulate` - 가상 시뮬레이션 생성 (모의 데이터)
+- `GET /api/hospitals` - 병원 목록 조회 (모의 데이터)
+
+## 아직 구현되지 않은 기능
+
+### 🔲 AI 이미지 처리
+- [ ] 실제 얼굴 인식 및 두피 영역 추출
+- [ ] 탈모 유형 자동 분류 알고리즘
+- [ ] 모낭 밀도 맵 생성
+- [ ] Before/After 이미지 생성 AI 모델
+
+### 🔲 백엔드 데이터베이스
+- [ ] Cloudflare D1 데이터베이스 설정
+- [ ] 사용자 데이터 저장
+- [ ] 시뮬레이션 기록 저장
+- [ ] 병원 정보 관리
+- [ ] 후기 데이터 관리
+
+### 🔲 사용자 인증
+- [ ] 회원가입/로그인
+- [ ] 마이페이지
+- [ ] 시뮬레이션 기록 조회
+- [ ] 상담 내역 관리
+
+### 🔲 결제 시스템
+- [ ] 유료 시뮬레이션 (프리미엄)
+- [ ] 의료 금융 연계
+- [ ] 재수술 보증 상품
+
+### 🔲 병원 파트너 시스템
+- [ ] 병원 관리자 페이지
+- [ ] 상담 예약 관리
+- [ ] 병원 통계 대시보드
+
+### 🔲 고급 기능
+- [ ] AR 실시간 미리보기 (웹캠)
+- [ ] 다중 시나리오 비교
+- [ ] 치료 경과 추적
+- [ ] 구독 관리 시스템
+
+## 데이터 아키텍처
+
+### 현재 상태
+- **프론트엔드**: 정적 HTML + TailwindCSS
+- **백엔드**: Hono Framework (Cloudflare Workers)
+- **데이터**: 모의(Mock) 데이터 사용
+
+### 권장 확장 구조
+```
+┌─────────────────────────────────────────┐
+│         Frontend (HTML + JS)            │
+│  - 사진 업로드 UI                        │
+│  - 시뮬레이션 뷰어                       │
+│  - 병원 비교 인터페이스                  │
+└─────────────────┬───────────────────────┘
+                  │
+┌─────────────────▼───────────────────────┐
+│      Hono API Routes (Edge)             │
+│  - /api/diagnose                        │
+│  - /api/simulate                        │
+│  - /api/hospitals                       │
+└─────────────────┬───────────────────────┘
+                  │
+┌─────────────────▼───────────────────────┐
+│      Cloudflare Services                │
+│  - D1: 사용자/병원/후기 데이터          │
+│  - R2: 사진/시뮬레이션 이미지           │
+│  - AI: Workers AI (이미지 분석)         │
+└─────────────────────────────────────────┘
 ```
 
-```txt
-npm run deploy
+## 사용자 가이드
+
+### 1. AI 탈모 진단 받기
+1. 메인 페이지에서 "무료 AI 진단 시작" 클릭
+2. 정면, 측면, 정수리 사진 업로드
+3. "AI 분석 시작" 버튼 클릭
+4. 진단 결과 확인 (탈모 유형, 진행도, 권장 치료)
+
+### 2. 수술 결과 시뮬레이션
+1. 진단 결과에서 "수술 결과 시뮬레이션 보기" 클릭
+2. 시뮬레이션 옵션 선택 (시술 종류, 모낭 수, 기간)
+3. "시뮬레이션 생성" 클릭
+4. Before/After 비교 슬라이더로 결과 확인
+5. 예상 비용 및 리스크 검토
+
+### 3. 병원 찾기
+1. 네비게이션에서 "병원 매칭" 클릭
+2. 지역, 수술 방식, 가격대 필터 설정
+3. 병원 카드에서 상세 정보 확인
+4. "상담 신청" 버튼으로 예약
+
+### 4. 실제 후기 확인
+1. 네비게이션에서 "후기" 클릭
+2. 시뮬레이션 정확도 확인
+3. Before/After 실제 사례 비교
+
+## 기술 스택
+
+### Frontend
+- **TailwindCSS** - 유틸리티 우선 CSS 프레임워크
+- **Font Awesome** - 아이콘 라이브러리
+- **Axios** - HTTP 클라이언트 (API 호출)
+- **Vanilla JavaScript** - 인터랙션 구현
+
+### Backend
+- **Hono** - 경량 웹 프레임워크
+- **Cloudflare Workers** - Edge 런타임
+- **Wrangler** - Cloudflare CLI 도구
+
+### Development
+- **Vite** - 빌드 도구
+- **TypeScript** - 타입 안정성
+- **PM2** - 프로세스 관리 (개발용)
+
+## 배포 상태
+
+### 현재
+- ✅ **개발 서버**: PM2 + Wrangler Pages Dev
+- ✅ **샌드박스 환경**: 테스트 가능
+- ❌ **프로덕션**: 미배포
+
+### 프로덕션 배포 준비사항
+1. Cloudflare 계정 설정
+2. 프로젝트 생성 및 배포
+3. 커스텀 도메인 연결 (선택)
+4. 환경 변수 설정
+
+```bash
+# 프로덕션 배포 명령어 (준비 시)
+npm run build
+wrangler pages deploy dist --project-name hairsim-ai
 ```
 
-[For generating/synchronizing types based on your Worker configuration run](https://developers.cloudflare.com/workers/wrangler/commands/#types):
+## 추천 다음 단계
 
-```txt
-npm run cf-typegen
+### 즉시 구현 가능
+1. **이미지 업로드 백엔드 구현** (Cloudflare R2 연동)
+2. **D1 데이터베이스 스키마 설계** (사용자, 시뮬레이션, 병원, 후기)
+3. **실제 병원 데이터 입력** (최소 10개 병원)
+4. **후기 데이터 구조화** (최소 20개 실제 사례)
+
+### 단기 목표 (1-2개월)
+1. **AI 이미지 분석 연동** (Cloudflare AI 또는 외부 API)
+2. **사용자 인증 시스템** (회원가입/로그인)
+3. **결제 시스템 테스트** (Stripe/Toss Payments)
+4. **병원 관리자 페이지** (상담 예약 관리)
+
+### 중기 목표 (3-6개월)
+1. **실제 AI 시뮬레이션 모델** 개발 또는 연동
+2. **모바일 앱** (React Native 또는 PWA)
+3. **AR 실시간 미리보기** (웹캠 기반)
+4. **병원 파트너십** 확대 (50개 이상)
+
+### 장기 목표 (6개월+)
+1. **해외 시장 진출** (일본, 중국, 중동)
+2. **의료 관광 패키지** 연계
+3. **D2C 제품 판매** (탈모 샴푸, 기기)
+4. **헬스케어 플랫폼** 확장 (두피 건강 데이터)
+
+## 프로젝트 구조
+
+```
+webapp/
+├── src/
+│   ├── index.tsx              # 메인 애플리케이션 (모든 라우트)
+│   └── renderer.tsx           # 기본 렌더러
+├── public/                    # 정적 파일 (향후 추가)
+│   └── static/
+│       └── style.css
+├── dist/                      # 빌드 결과물
+│   └── _worker.js
+├── ecosystem.config.cjs       # PM2 설정
+├── wrangler.jsonc             # Cloudflare 설정
+├── vite.config.ts             # Vite 빌드 설정
+├── tsconfig.json              # TypeScript 설정
+├── package.json               # 의존성 및 스크립트
+├── .gitignore                 # Git 제외 파일
+└── README.md                  # 프로젝트 문서 (이 파일)
 ```
 
-Pass the `CloudflareBindings` as generics when instantiation `Hono`:
+## 개발 가이드
 
-```ts
-// src/index.ts
-const app = new Hono<{ Bindings: CloudflareBindings }>()
+### 로컬 개발 서버 시작
+```bash
+# 1. 포트 정리
+npm run clean-port
+
+# 2. 빌드
+npm run build
+
+# 3. PM2로 서버 시작
+pm2 start ecosystem.config.cjs
+
+# 4. 로그 확인
+pm2 logs webapp --nostream
+
+# 5. 서버 재시작
+pm2 restart webapp
+
+# 6. 서버 중지
+pm2 delete webapp
 ```
+
+### 테스트
+```bash
+# API 테스트
+curl http://localhost:3000
+curl http://localhost:3000/api/diagnose
+curl http://localhost:3000/api/hospitals
+```
+
+### Git 작업
+```bash
+# 변경사항 커밋
+npm run git:commit "메시지"
+
+# 상태 확인
+npm run git:status
+
+# 로그 확인
+npm run git:log
+```
+
+## 라이선스
+
+이 프로젝트는 상업적 목적으로 개발되었습니다. 모든 권리는 저작권자에게 있습니다.
+
+## 면책 조항
+
+**중요**: 본 플랫폼의 AI 시뮬레이션 결과는 예측 결과이며 실제 수술 결과를 보장하지 않습니다. 
+모든 의료 결정은 전문 의료인과 상담 후 진행해야 합니다.
+
+---
+
+**마지막 업데이트**: 2024-12-16
+**프로젝트 상태**: 🟢 개발 진행 중 (MVP 완료)
+**개발 환경**: Cloudflare Pages + Hono Framework
+**문의**: HairSim AI 팀
