@@ -99,23 +99,95 @@ app.get('/', (c) => {
             min-height: 600px;
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
           }
+          /* Mobile optimization */
+          @media (max-width: 768px) {
+            nav {
+              height: auto !important;
+              min-height: 48px;
+            }
+            nav .flex {
+              height: 48px !important;
+            }
+            nav i {
+              font-size: 1rem !important;
+              margin-right: 0.25rem !important;
+            }
+            nav span {
+              font-size: 0.9rem !important;
+            }
+            nav a {
+              font-size: 0.75rem !important;
+              padding: 0.25rem 0.5rem;
+            }
+            .hero-section {
+              min-height: 400px !important;
+              padding: 2rem 0 !important;
+            }
+            .hero-section h1 {
+              font-size: 1.5rem !important;
+              line-height: 1.3 !important;
+              margin-bottom: 1rem !important;
+            }
+            .hero-section p {
+              font-size: 0.875rem !important;
+              line-height: 1.4 !important;
+              margin-bottom: 1.5rem !important;
+            }
+            .hero-section .flex {
+              flex-direction: column !important;
+              gap: 0.75rem !important;
+            }
+            .hero-section a {
+              font-size: 0.875rem !important;
+              padding: 0.75rem 1.5rem !important;
+              width: 100%;
+            }
+            .hero-section .grid {
+              margin-top: 2rem !important;
+              gap: 1rem !important;
+            }
+            .hero-section .grid > div {
+              padding: 1rem !important;
+            }
+            .hero-section .grid i {
+              font-size: 2rem !important;
+              margin-bottom: 0.5rem !important;
+            }
+            .hero-section .grid h3 {
+              font-size: 1rem !important;
+              margin-bottom: 0.5rem !important;
+            }
+            .hero-section .grid p {
+              font-size: 0.75rem !important;
+            }
+            section h2 {
+              font-size: 1.5rem !important;
+              margin-bottom: 2rem !important;
+            }
+            section h3 {
+              font-size: 1rem !important;
+            }
+            section p {
+              font-size: 0.875rem !important;
+            }
+          }
         </style>
     </head>
     <body class="bg-gray-50">
         <!-- Navigation -->
         <nav class="bg-white shadow-lg sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
+            <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+                <div class="flex justify-between h-16 sm:h-14 md:h-16">
                     <div class="flex items-center">
-                        <i class="fas fa-brain text-blue-600 text-2xl mr-2"></i>
-                        <span class="text-xl font-bold text-gray-800">HairSim AI</span>
+                        <i class="fas fa-brain text-blue-600 text-xl sm:text-lg md:text-2xl mr-1 sm:mr-2"></i>
+                        <span class="text-lg sm:text-base md:text-xl font-bold text-gray-800">HairSim AI</span>
                     </div>
-                    <div class="flex items-center space-x-8">
-                        <a href="/" class="text-gray-700 hover:text-blue-600">홈</a>
-                        <a href="/diagnosis" class="text-gray-700 hover:text-blue-600">AI 진단</a>
-                        <a href="/simulation" class="text-gray-700 hover:text-blue-600">시뮬레이션</a>
-                        <a href="/hospitals" class="text-gray-700 hover:text-blue-600">병원 매칭</a>
-                        <a href="/reviews" class="text-gray-700 hover:text-blue-600">후기</a>
+                    <div class="flex items-center space-x-2 sm:space-x-4 md:space-x-8">
+                        <a href="/" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600">홈</a>
+                        <a href="/diagnosis" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600">진단</a>
+                        <a href="/simulation" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600 hidden sm:inline">시뮬</a>
+                        <a href="/hospitals" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600">병원</a>
+                        <a href="/reviews" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600 hidden sm:inline">후기</a>
                     </div>
                 </div>
             </div>
@@ -123,44 +195,44 @@ app.get('/', (c) => {
 
         <!-- Hero Section -->
         <section class="hero-section text-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
                 <div class="text-center">
-                    <h1 class="text-5xl font-bold mb-6">
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-6 leading-tight">
                         내 얼굴로 미리 보는<br/>
                         <span class="text-yellow-300">탈모 수술 결과</span>
                     </h1>
-                    <p class="text-xl mb-8 text-blue-100">
-                        AI 기반 가상 시뮬레이션으로 수술 전 결과를 확인하세요<br/>
-                        실제 사진 분석 → 맞춤 진단 → 결과 예측 → 병원 매칭까지
+                    <p class="text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 md:mb-8 text-blue-100 leading-relaxed">
+                        AI 기반 가상 시뮬레이션으로<br class="sm:hidden"/> 수술 전 결과를 확인하세요<br/>
+                        <span class="text-xs sm:text-sm md:text-base">사진 분석 → 맞춤 진단 → 결과 예측 → 병원 매칭</span>
                     </p>
-                    <div class="flex justify-center space-x-4">
-                        <a href="/diagnosis" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-4 px-8 rounded-lg text-lg shadow-lg transform transition hover:scale-105">
+                    <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 max-w-md sm:max-w-none mx-auto">
+                        <a href="/diagnosis" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-sm sm:text-base md:text-lg shadow-lg transform transition hover:scale-105">
                             <i class="fas fa-camera mr-2"></i>
-                            무료 AI 진단 시작
+                            무료 AI 진단
                         </a>
-                        <a href="/simulation" class="bg-white hover:bg-gray-100 text-blue-600 font-bold py-4 px-8 rounded-lg text-lg shadow-lg transform transition hover:scale-105">
+                        <a href="/simulation" class="bg-white hover:bg-gray-100 text-blue-600 font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-sm sm:text-base md:text-lg shadow-lg transform transition hover:scale-105">
                             <i class="fas fa-magic mr-2"></i>
-                            시뮬레이션 체험
+                            시뮬레이션
                         </a>
                     </div>
                 </div>
 
                 <!-- Feature Cards -->
-                <div class="grid md:grid-cols-3 gap-8 mt-16">
-                    <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 text-center">
-                        <i class="fas fa-brain text-yellow-300 text-4xl mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">AI 정밀 분석</h3>
-                        <p class="text-blue-100">탈모 유형, 진행도, 필요 모낭 수 자동 계산</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 md:mt-16">
+                    <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg sm:rounded-xl p-4 sm:p-6 text-center">
+                        <i class="fas fa-brain text-yellow-300 text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3 md:mb-4"></i>
+                        <h3 class="text-base sm:text-lg md:text-xl font-bold mb-1 sm:mb-2">AI 정밀 분석</h3>
+                        <p class="text-xs sm:text-sm md:text-base text-blue-100">탈모 유형, 진행도, 필요 모낭 수 자동 계산</p>
                     </div>
-                    <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 text-center">
-                        <i class="fas fa-eye text-yellow-300 text-4xl mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">실제 결과 예측</h3>
-                        <p class="text-blue-100">내 얼굴 사진으로 수술 후 모습 미리보기</p>
+                    <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg sm:rounded-xl p-4 sm:p-6 text-center">
+                        <i class="fas fa-eye text-yellow-300 text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3 md:mb-4"></i>
+                        <h3 class="text-base sm:text-lg md:text-xl font-bold mb-1 sm:mb-2">실제 결과 예측</h3>
+                        <p class="text-xs sm:text-sm md:text-base text-blue-100">내 얼굴 사진으로 수술 후 모습 미리보기</p>
                     </div>
-                    <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 text-center">
-                        <i class="fas fa-hospital text-yellow-300 text-4xl mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">신뢰 병원 매칭</h3>
-                        <p class="text-blue-100">실력 검증된 병원 비교 및 상담 연결</p>
+                    <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg sm:rounded-xl p-4 sm:p-6 text-center">
+                        <i class="fas fa-hospital text-yellow-300 text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3 md:mb-4"></i>
+                        <h3 class="text-base sm:text-lg md:text-xl font-bold mb-1 sm:mb-2">신뢰 병원 매칭</h3>
+                        <p class="text-xs sm:text-sm md:text-base text-blue-100">실력 검증된 병원 비교 및 상담 연결</p>
                     </div>
                 </div>
             </div>
@@ -384,20 +456,20 @@ app.get('/diagnosis', (c) => {
     <body class="bg-gray-50">
         <!-- Navigation -->
         <nav class="bg-white shadow-lg sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
+            <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+                <div class="flex justify-between h-16 sm:h-14 md:h-16">
                     <div class="flex items-center">
                         <a href="/" class="flex items-center">
-                            <i class="fas fa-brain text-blue-600 text-2xl mr-2"></i>
-                            <span class="text-xl font-bold text-gray-800">HairSim AI</span>
+                            <i class="fas fa-brain text-blue-600 text-xl sm:text-lg md:text-2xl mr-1 sm:mr-2"></i>
+                            <span class="text-lg sm:text-base md:text-xl font-bold text-gray-800">HairSim AI</span>
                         </a>
                     </div>
-                    <div class="flex items-center space-x-8">
-                        <a href="/" class="text-gray-700 hover:text-blue-600">홈</a>
-                        <a href="/diagnosis" class="text-blue-600 font-bold">AI 진단</a>
-                        <a href="/simulation" class="text-gray-700 hover:text-blue-600">시뮬레이션</a>
-                        <a href="/hospitals" class="text-gray-700 hover:text-blue-600">병원 매칭</a>
-                        <a href="/reviews" class="text-gray-700 hover:text-blue-600">후기</a>
+                    <div class="flex items-center space-x-2 sm:space-x-4 md:space-x-8">
+                        <a href="/" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600">홈</a>
+                        <a href="/diagnosis" class="text-xs sm:text-sm md:text-base text-blue-600 font-bold">진단</a>
+                        <a href="/simulation" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600 hidden sm:inline">시뮬</a>
+                        <a href="/hospitals" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600">병원</a>
+                        <a href="/reviews" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600 hidden sm:inline">후기</a>
                     </div>
                 </div>
             </div>
