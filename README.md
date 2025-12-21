@@ -14,14 +14,30 @@
 ## 공개 URL
 
 ### 🌐 접속 주소
-- **개발 서버**: https://3000-itxbtwd0rrm43ssujbb8m-de59bda9.sandbox.novita.ai
-- **메인 페이지**: https://3000-itxbtwd0rrm43ssujbb8m-de59bda9.sandbox.novita.ai/
-- **AI 진단**: https://3000-itxbtwd0rrm43ssujbb8m-de59bda9.sandbox.novita.ai/diagnosis
-- **가상 시뮬레이션**: https://3000-itxbtwd0rrm43ssujbb8m-de59bda9.sandbox.novita.ai/simulation
-- **병원 매칭**: https://3000-itxbtwd0rrm43ssujbb8m-de59bda9.sandbox.novita.ai/hospitals
-- **후기**: https://3000-itxbtwd0rrm43ssujbb8m-de59bda9.sandbox.novita.ai/reviews
+- **프로덕션 (메인 도메인)**: https://ico.ai.kr
+- **프로덕션 (Cloudflare)**: https://hairsim-ai.pages.dev
+- **GitHub 저장소**: https://github.com/langsb16-collab/talmo-hair-
 
 ## 현재 완료된 기능
+
+### ✅ 0. 다국어 지원 🌍
+- **7개 국어 완전 지원**
+  - 🇰🇷 한국어 (Korean)
+  - 🇺🇸 영어 (English)
+  - 🇨🇳 중국어 (简体中文)
+  - 🇯🇵 일본어 (日本語)
+  - 🇹🇭 태국어 (ไทย)
+  - 🇻🇳 베트남어 (Tiếng Việt)
+  - 🇪🇸 스페인어 (Español)
+  - 🇩🇪 독일어 (Deutsch)
+- **자동 언어 감지**
+  - URL 기반 언어 감지 (/en, /zh, /ja, /th, /vi, /es, /de)
+  - 브라우저 언어 자동 감지
+  - localStorage를 통한 사용자 선호 언어 저장
+- **언어 전환 기능**
+  - 헤더 언어 선택 드롭다운
+  - 실시간 페이지 텍스트 업데이트
+  - 모든 페이지 메뉴 및 설명 완전 번역
 
 ### ✅ 1. 메인 페이지
 - Hero 섹션 (플랫폼 소개 + CTA)
@@ -195,10 +211,12 @@
 
 ## 배포 상태
 
-### 현재
-- ✅ **개발 서버**: PM2 + Wrangler Pages Dev
-- ✅ **샌드박스 환경**: 테스트 가능
-- ❌ **프로덕션**: 미배포
+### ✅ 프로덕션 배포 완료
+- ✅ **Cloudflare Pages**: https://hairsim-ai.pages.dev
+- ✅ **커스텀 도메인**: https://ico.ai.kr (SSL 인증 완료)
+- ✅ **DNS 설정**: Cloudflare 네임서버로 완전 이관
+- ✅ **GitHub 연동**: 자동 배포 파이프라인
+- ✅ **다국어 지원**: 7개 국어 라이브
 
 ### 프로덕션 배포 준비사항
 1. Cloudflare 계정 설정
@@ -313,7 +331,9 @@ npm run git:log
 
 ---
 
-**마지막 업데이트**: 2024-12-16
-**프로젝트 상태**: 🟢 개발 진행 중 (MVP 완료)
+**마지막 업데이트**: 2025-12-21
+**프로젝트 상태**: 🟢 프로덕션 배포 완료 (다국어 지원 완료)
 **개발 환경**: Cloudflare Pages + Hono Framework
+**언어 지원**: 7개 국어 (KO, EN, ZH, JA, TH, VI, ES, DE)
+**프로덕션 URL**: https://ico.ai.kr
 **문의**: HairSim AI 팀
