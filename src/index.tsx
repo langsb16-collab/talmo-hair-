@@ -188,6 +188,29 @@ app.get('/', (c) => {
                         <a href="/simulation" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600 hidden sm:inline">시뮬</a>
                         <a href="/hospitals" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600">병원</a>
                         <a href="/reviews" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600 hidden sm:inline">후기</a>
+                        
+                        <!-- Language Selector -->
+                        <div class="relative">
+                            <button id="langBtn" class="flex items-center space-x-1 text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600 focus:outline-none">
+                                <i class="fas fa-globe"></i>
+                                <span id="currentLang">KO</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="langMenu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                                <a href="#" data-lang="ko" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-t-lg">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>한국어
+                                </a>
+                                <a href="#" data-lang="en" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>English
+                                </a>
+                                <a href="#" data-lang="zh" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>中文
+                                </a>
+                                <a href="#" data-lang="ja" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-b-lg">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>日本語
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -436,6 +459,75 @@ app.get('/', (c) => {
                 </div>
             </div>
         </footer>
+        
+        <script>
+        // Language Switcher
+        document.addEventListener('DOMContentLoaded', function() {
+            const langBtn = document.getElementById('langBtn');
+            const langMenu = document.getElementById('langMenu');
+            const currentLang = document.getElementById('currentLang');
+            const langOptions = document.querySelectorAll('.lang-option');
+            
+            // Load saved language
+            const savedLang = localStorage.getItem('language') || 'ko';
+            setLanguage(savedLang);
+            
+            // Toggle dropdown
+            if (langBtn && langMenu) {
+                langBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    langMenu.classList.toggle('hidden');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!langBtn.contains(e.target) && !langMenu.contains(e.target)) {
+                        langMenu.classList.add('hidden');
+                    }
+                });
+            }
+            
+            // Language selection
+            langOptions.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.dataset.lang;
+                    setLanguage(lang);
+                    localStorage.setItem('language', lang);
+                    langMenu.classList.add('hidden');
+                });
+            });
+            
+            function setLanguage(lang) {
+                // Update current language display
+                const langMap = {
+                    'ko': 'KO',
+                    'en': 'EN',
+                    'zh': 'CN',
+                    'ja': 'JP'
+                };
+                if (currentLang) {
+                    currentLang.textContent = langMap[lang] || 'KO';
+                }
+                
+                // Update checkmarks
+                langOptions.forEach(opt => {
+                    const check = opt.querySelector('.fa-check');
+                    if (check) {
+                        if (opt.dataset.lang === lang) {
+                            check.style.display = 'inline';
+                        } else {
+                            check.style.display = 'none';
+                        }
+                    }
+                });
+                
+                // TODO: Implement actual translation logic here
+                // For now, just store the preference
+            }
+        });
+        </script>
     </body>
     </html>
   `)
@@ -470,6 +562,29 @@ app.get('/diagnosis', (c) => {
                         <a href="/simulation" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600 hidden sm:inline">시뮬</a>
                         <a href="/hospitals" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600">병원</a>
                         <a href="/reviews" class="text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600 hidden sm:inline">후기</a>
+                        
+                        <!-- Language Selector -->
+                        <div class="relative">
+                            <button id="langBtn" class="flex items-center space-x-1 text-xs sm:text-sm md:text-base text-gray-700 hover:text-blue-600 focus:outline-none">
+                                <i class="fas fa-globe"></i>
+                                <span id="currentLang">KO</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="langMenu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                                <a href="#" data-lang="ko" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-t-lg">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>한국어
+                                </a>
+                                <a href="#" data-lang="en" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>English
+                                </a>
+                                <a href="#" data-lang="zh" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>中文
+                                </a>
+                                <a href="#" data-lang="ja" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-b-lg">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>日本語
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -756,6 +871,29 @@ app.get('/simulation', (c) => {
                         <a href="/simulation" class="text-blue-600 font-bold">시뮬레이션</a>
                         <a href="/hospitals" class="text-gray-700 hover:text-blue-600">병원 매칭</a>
                         <a href="/reviews" class="text-gray-700 hover:text-blue-600">후기</a>
+                        
+                        <!-- Language Selector -->
+                        <div class="relative">
+                            <button id="langBtn" class="flex items-center space-x-1 text-gray-700 hover:text-blue-600 focus:outline-none">
+                                <i class="fas fa-globe"></i>
+                                <span id="currentLang">KO</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="langMenu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                                <a href="#" data-lang="ko" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-t-lg">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>한국어
+                                </a>
+                                <a href="#" data-lang="en" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>English
+                                </a>
+                                <a href="#" data-lang="zh" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>中文
+                                </a>
+                                <a href="#" data-lang="ja" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-b-lg">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>日本語
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -988,6 +1126,29 @@ app.get('/hospitals', (c) => {
                         <a href="/simulation" class="text-gray-700 hover:text-blue-600">시뮬레이션</a>
                         <a href="/hospitals" class="text-blue-600 font-bold">병원 매칭</a>
                         <a href="/reviews" class="text-gray-700 hover:text-blue-600">후기</a>
+                        
+                        <!-- Language Selector -->
+                        <div class="relative">
+                            <button id="langBtn" class="flex items-center space-x-1 text-gray-700 hover:text-blue-600 focus:outline-none">
+                                <i class="fas fa-globe"></i>
+                                <span id="currentLang">KO</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="langMenu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                                <a href="#" data-lang="ko" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-t-lg">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>한국어
+                                </a>
+                                <a href="#" data-lang="en" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>English
+                                </a>
+                                <a href="#" data-lang="zh" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>中文
+                                </a>
+                                <a href="#" data-lang="ja" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-b-lg">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>日本語
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1274,6 +1435,29 @@ app.get('/reviews', (c) => {
                         <a href="/simulation" class="text-gray-700 hover:text-blue-600">시뮬레이션</a>
                         <a href="/hospitals" class="text-gray-700 hover:text-blue-600">병원 매칭</a>
                         <a href="/reviews" class="text-blue-600 font-bold">후기</a>
+                        
+                        <!-- Language Selector -->
+                        <div class="relative">
+                            <button id="langBtn" class="flex items-center space-x-1 text-gray-700 hover:text-blue-600 focus:outline-none">
+                                <i class="fas fa-globe"></i>
+                                <span id="currentLang">KO</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="langMenu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                                <a href="#" data-lang="ko" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-t-lg">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>한국어
+                                </a>
+                                <a href="#" data-lang="en" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>English
+                                </a>
+                                <a href="#" data-lang="zh" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>中文
+                                </a>
+                                <a href="#" data-lang="ja" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-b-lg">
+                                    <i class="fas fa-check text-blue-600 mr-2" style="display:none;"></i>日本語
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
