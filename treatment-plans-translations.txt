@@ -1,0 +1,102 @@
+    treatmentPlans: {
+      title: 'Treatment Plans - HairSim AI',
+      hero: {
+        title: 'Your Personalized Treatment Plan',
+        subtitle: 'Find the optimal treatment path based on AI analysis'
+      },
+      analysis: {
+        title: 'AI Diagnosis Results',
+        stage: 'Hair Loss Stage',
+        density: 'Follicle Density',
+        confidence: 'AI Confidence',
+        follicles: 'Follicles Needed',
+        progressLabel: 'Hair Loss Progress',
+        riskTitle: 'Risk Level: Moderate',
+        riskDesc: 'Active treatment recommended within 6-12 months'
+      },
+      comparison: {
+        title: 'Treatment Plan Comparison'
+      },
+      plans: {
+        cost: 'Estimated Cost',
+        effectiveness: 'Effectiveness',
+        treatments: 'Included Treatments',
+        selectBtn: 'Select',
+        selectRecommended: 'Select Recommended Plan',
+        recommended: 'Recommended',
+        short: {
+          title: 'Short-term Plan',
+          subtitle: 'Quick Improvement',
+          treatment1: 'Medication (Finasteride)',
+          treatment2: 'Mesotherapy (6 sessions)',
+          treatment3: 'PRP Treatment (3 sessions)'
+        },
+        medium: {
+          title: 'Mid-term Plan',
+          subtitle: 'Balanced Treatment',
+          treatment1: 'Medication (Combined)',
+          treatment2: 'Mesotherapy (12 sessions)',
+          treatment3: 'PRP Treatment (6 sessions)',
+          treatment4: 'LLLT (24 sessions)'
+        },
+        long: {
+          title: 'Long-term Plan',
+          subtitle: 'Best Results',
+          treatment1: 'Hair Transplant Surgery',
+          treatment2: 'Medication (12 months)',
+          treatment3: 'PRP Treatment (12 sessions)',
+          treatment4: 'Stem Cell Therapy (6 sessions)',
+          treatment5: 'LLLT (48 sessions)'
+        }
+      },
+      bcr: {
+        title: 'What is BCR Score?',
+        description: 'Benefit-Cost Ratio indicates the expected benefit relative to treatment cost. 3.0+ is highly efficient, 2.0-3.0 is good, below 2.0 is average.'
+      },
+      timeline: {
+        title: 'Recovery Timeline Simulation',
+        recovery: 'Recovery',
+        week1: {
+          title: 'Post-Surgery',
+          symptoms: 'Symptoms: Swelling, mild pain',
+          activities: 'Activity: Complete rest'
+        },
+        week2: {
+          title: 'Early Recovery',
+          symptoms: 'Symptoms: Mild swelling',
+          activities: 'Activity: Light daily activities'
+        },
+        week4: {
+          title: 'Mid Recovery',
+          symptoms: 'Symptoms: Mild itching',
+          activities: 'Activity: Normal activities'
+        },
+        week8: {
+          title: 'Late Recovery',
+          symptoms: 'Symptoms: Minimal',
+          activities: 'Activity: All activities'
+        },
+        week12: {
+          title: 'Stable Phase',
+          symptoms: 'Symptoms: None',
+          activities: 'Activity: Fully normal'
+        },
+        week24: {
+          title: 'Final Results',
+          symptoms: 'Symptoms: None',
+          activities: 'Activity: Complete results visible'
+        }
+      },
+      hospitals: {
+        title: 'Recommended Hospitals',
+        match: 'Match',
+        consultBtn: 'Book Consultation',
+        viewAllBtn: 'View All Hospitals'
+      },
+      cta: {
+        title: 'Start Now',
+        subtitle: 'Find your optimal treatment path with AI analysis',
+        diagnosisBtn: 'Start AI Diagnosis',
+        simulationBtn: 'View Simulation'
+      }
+    },

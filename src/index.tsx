@@ -80,6 +80,70 @@ app.get('/api/hospitals', (c) => {
   })
 })
 
+app.post('/api/treatment-plans', async (c) => {
+  // 맞춤 치료 플랜 추천 API
+  const body = await c.req.json()
+  const { stage, budget, timeframe, goals } = body
+  
+  // 플랜 계산 로직 (모의 데이터)
+  const plans = {
+    '3months': {
+      duration: '3개월',
+      totalCost: budget * 0.3,
+      treatments: ['약물치료', '메조테라피', 'PRP'],
+      effectiveness: 65,
+      bcrScore: 2.1,
+      followUps: 6,
+      expectedResult: '탈모 진행 지연'
+    },
+    '6months': {
+      duration: '6개월',
+      totalCost: budget * 0.6,
+      treatments: ['약물치료', '메조테라피', 'PRP', '저출력 레이저'],
+      effectiveness: 78,
+      bcrScore: 2.8,
+      followUps: 12,
+      expectedResult: '중등도 개선'
+    },
+    '12months': {
+      duration: '12개월',
+      totalCost: budget,
+      treatments: ['모발이식', '약물치료', 'PRP', '줄기세포치료'],
+      effectiveness: 92,
+      bcrScore: 3.5,
+      followUps: 24,
+      expectedResult: '최대 개선'
+    }
+  }
+  
+  return c.json({
+    success: true,
+    data: {
+      patientInfo: { stage, budget, timeframe, goals },
+      plans,
+      recommendedPlan: '12months',
+      matchedHospitals: [1, 2, 3]
+    }
+  })
+})
+
+app.get('/api/recovery-timeline', (c) => {
+  // 회복 일정 시뮬레이션 API
+  const weeks = [
+    { week: 1, status: '수술 직후', recovery: 10, symptoms: '부기, 통증', activities: '안정' },
+    { week: 2, status: '초기 회복', recovery: 25, symptoms: '가벼운 부기', activities: '가벼운 일상' },
+    { week: 4, status: '중기 회복', recovery: 50, symptoms: '가려움', activities: '정상 활동' },
+    { week: 8, status: '후기 회복', recovery: 75, symptoms: '최소', activities: '모든 활동' },
+    { week: 12, status: '안정기', recovery: 90, symptoms: '없음', activities: '정상' },
+    { week: 24, status: '최종 결과', recovery: 100, symptoms: '없음', activities: '정상' }
+  ]
+  
+  return c.json({
+    success: true,
+    data: { timeline: weeks }
+  })
+})
+
 // Main Pages
 app.get('/', (c) => {
   return c.html(`
@@ -1420,6 +1484,550 @@ app.get('/hospitals', (c) => {
   `)
 })
 
+
+app.get('/treatment-plans', (c) => {
+  return c.html(`
+    <!DOCTYPE html>
+    <html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title data-i18n="treatmentPlans.title">맞춤 치료 플랜 - HairSim AI</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="/static/i18n.js"></script>
+        <style>
+          .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+          .plan-card { transition: all 0.3s ease; }
+          .plan-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+          .plan-card.recommended { border: 3px solid #667eea; position: relative; }
+          .recommended-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.875rem;
+          }
+        </style>
+    </head>
+    <body class="bg-gray-50">
+        <!-- Header/Navigation -->
+        <nav class="bg-white shadow-lg sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <a href="/" class="flex items-center space-x-2">
+                        <i class="fas fa-brain text-3xl text-purple-600"></i>
+                        <span class="text-xl font-bold text-gray-800">HairSim AI</span>
+                    </a>
+                    
+                    <div class="hidden md:flex space-x-8">
+                        <a href="/" class="text-gray-700 hover:text-purple-600 transition" data-i18n="nav.home">홈</a>
+                        <a href="/diagnosis" class="text-gray-700 hover:text-purple-600 transition" data-i18n="nav.diagnosis">AI 진단</a>
+                        <a href="/simulation" class="text-gray-700 hover:text-purple-600 transition" data-i18n="nav.simulation">가상 시뮬레이션</a>
+                        <a href="/treatment-plans" class="text-purple-600 font-semibold" data-i18n="nav.treatmentPlans">맞춤 치료</a>
+                        <a href="/hospitals" class="text-gray-700 hover:text-purple-600 transition" data-i18n="nav.hospitals">병원 찾기</a>
+                        <a href="/reviews" class="text-gray-700 hover:text-purple-600 transition" data-i18n="nav.reviews">후기</a>
+                    </div>
+
+                    <!-- Language Selector -->
+                    <div class="relative language-selector">
+                        <button class="lang-button flex items-center space-x-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition">
+                            <i class="fas fa-globe"></i>
+                            <span class="current-lang">🇰🇷 한국어</span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                        <div class="lang-dropdown hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                            <a href="#" data-lang="ko" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 rounded-t-lg"><i class="fas fa-check text-purple-600 mr-2"></i>🇰🇷 한국어</a>
+                            <a href="#" data-lang="en" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50"><i class="fas fa-check text-purple-600 mr-2 invisible"></i>🇺🇸 English</a>
+                            <a href="#" data-lang="zh" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50"><i class="fas fa-check text-purple-600 mr-2 invisible"></i>🇨🇳 简体中文</a>
+                            <a href="#" data-lang="ja" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50"><i class="fas fa-check text-purple-600 mr-2 invisible"></i>🇯🇵 日本語</a>
+                            <a href="#" data-lang="th" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50"><i class="fas fa-check text-purple-600 mr-2 invisible"></i>🇹🇭 ไทย</a>
+                            <a href="#" data-lang="vi" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50"><i class="fas fa-check text-purple-600 mr-2 invisible"></i>🇻🇳 Tiếng Việt</a>
+                            <a href="#" data-lang="es" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50"><i class="fas fa-check text-purple-600 mr-2 invisible"></i>🇪🇸 Español</a>
+                            <a href="#" data-lang="de" class="lang-option block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 rounded-b-lg"><i class="fas fa-check text-purple-600 mr-2 invisible"></i>🇩🇪 Deutsch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="gradient-bg text-white py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4" data-i18n="treatmentPlans.hero.title">
+                    당신을 위한 맞춤 치료 플랜
+                </h1>
+                <p class="text-xl md:text-2xl opacity-90" data-i18n="treatmentPlans.hero.subtitle">
+                    AI 분석 기반 최적의 치료 경로를 찾아드립니다
+                </p>
+            </div>
+        </div>
+
+        <!-- AI Analysis Results -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i class="fas fa-chart-line text-purple-600 mr-3"></i>
+                    <span data-i18n="treatmentPlans.analysis.title">AI 진단 결과</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="text-center p-6 bg-purple-50 rounded-xl">
+                        <div class="text-4xl font-bold text-purple-600 mb-2">3단계</div>
+                        <div class="text-gray-600" data-i18n="treatmentPlans.analysis.stage">탈모 진행 단계</div>
+                        <div class="mt-2 text-sm text-gray-500">Norwood Scale</div>
+                    </div>
+                    <div class="text-center p-6 bg-blue-50 rounded-xl">
+                        <div class="text-4xl font-bold text-blue-600 mb-2">65%</div>
+                        <div class="text-gray-600" data-i18n="treatmentPlans.analysis.density">모낭 밀도</div>
+                        <div class="mt-2 text-sm text-gray-500">Normal: 80-100%</div>
+                    </div>
+                    <div class="text-center p-6 bg-green-50 rounded-xl">
+                        <div class="text-4xl font-bold text-green-600 mb-2">92%</div>
+                        <div class="text-gray-600" data-i18n="treatmentPlans.analysis.confidence">AI 신뢰도</div>
+                        <div class="mt-2 text-sm text-gray-500">High Accuracy</div>
+                    </div>
+                    <div class="text-center p-6 bg-orange-50 rounded-xl">
+                        <div class="text-4xl font-bold text-orange-600 mb-2">2,500</div>
+                        <div class="text-gray-600" data-i18n="treatmentPlans.analysis.follicles">필요 모낭수</div>
+                        <div class="mt-2 text-sm text-gray-500">Estimated</div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="mb-6">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-sm font-medium text-gray-700" data-i18n="treatmentPlans.analysis.progressLabel">탈모 진행도</span>
+                        <span class="text-sm font-medium text-purple-600">3/7 단계</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="bg-gradient-to-r from-purple-500 to-purple-700 h-4 rounded-full" style="width: 43%"></div>
+                    </div>
+                </div>
+
+                <!-- Risk Assessment -->
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-triangle text-yellow-600 mr-3"></i>
+                        <div>
+                            <p class="font-semibold text-gray-800" data-i18n="treatmentPlans.analysis.riskTitle">진행 위험도: 중등도</p>
+                            <p class="text-sm text-gray-600" data-i18n="treatmentPlans.analysis.riskDesc">6-12개월 내 적극적인 치료가 권장됩니다</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Treatment Plans Comparison -->
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">
+                <span data-i18n="treatmentPlans.comparison.title">치료 플랜 비교</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <!-- 3 Month Plan -->
+                <div class="plan-card bg-white rounded-2xl shadow-lg p-8">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2" data-i18n="treatmentPlans.plans.short.title">단기 플랜</h3>
+                        <div class="text-4xl font-bold text-purple-600 mb-2">3개월</div>
+                        <p class="text-gray-600" data-i18n="treatmentPlans.plans.short.subtitle">빠른 개선</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600" data-i18n="treatmentPlans.plans.cost">예상 비용</span>
+                            <span class="font-bold text-gray-800">₩2,000,000</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600" data-i18n="treatmentPlans.plans.effectiveness">효과</span>
+                            <span class="font-bold text-gray-800">65%</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">BCR Score</span>
+                            <span class="font-bold text-purple-600">2.1</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-3" data-i18n="treatmentPlans.plans.treatments">포함 치료</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span data-i18n="treatmentPlans.plans.short.treatment1">약물치료 (피나스테리드)</span>
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span data-i18n="treatmentPlans.plans.short.treatment2">메조테라피 (6회)</span>
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span data-i18n="treatmentPlans.plans.short.treatment3">PRP 치료 (3회)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button class="w-full bg-purple-100 hover:bg-purple-200 text-purple-700 font-bold py-3 px-6 rounded-lg transition">
+                        <span data-i18n="treatmentPlans.plans.selectBtn">선택하기</span>
+                    </button>
+                </div>
+
+                <!-- 6 Month Plan -->
+                <div class="plan-card bg-white rounded-2xl shadow-lg p-8">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2" data-i18n="treatmentPlans.plans.medium.title">중기 플랜</h3>
+                        <div class="text-4xl font-bold text-blue-600 mb-2">6개월</div>
+                        <p class="text-gray-600" data-i18n="treatmentPlans.plans.medium.subtitle">균형잡힌 치료</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600" data-i18n="treatmentPlans.plans.cost">예상 비용</span>
+                            <span class="font-bold text-gray-800">₩4,000,000</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600" data-i18n="treatmentPlans.plans.effectiveness">효과</span>
+                            <span class="font-bold text-gray-800">78%</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">BCR Score</span>
+                            <span class="font-bold text-blue-600">2.8</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-3" data-i18n="treatmentPlans.plans.treatments">포함 치료</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span data-i18n="treatmentPlans.plans.medium.treatment1">약물치료 (복합)</span>
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span data-i18n="treatmentPlans.plans.medium.treatment2">메조테라피 (12회)</span>
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span data-i18n="treatmentPlans.plans.medium.treatment3">PRP 치료 (6회)</span>
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span data-i18n="treatmentPlans.plans.medium.treatment4">저출력 레이저 (24회)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button class="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold py-3 px-6 rounded-lg transition">
+                        <span data-i18n="treatmentPlans.plans.selectBtn">선택하기</span>
+                    </button>
+                </div>
+
+                <!-- 12 Month Plan (Recommended) -->
+                <div class="plan-card recommended bg-white rounded-2xl shadow-lg p-8">
+                    <div class="recommended-badge">
+                        <i class="fas fa-star mr-1"></i>
+                        <span data-i18n="treatmentPlans.plans.recommended">추천</span>
+                    </div>
+                    
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2" data-i18n="treatmentPlans.plans.long.title">장기 플랜</h3>
+                        <div class="text-4xl font-bold text-green-600 mb-2">12개월</div>
+                        <p class="text-gray-600" data-i18n="treatmentPlans.plans.long.subtitle">최고의 결과</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600" data-i18n="treatmentPlans.plans.cost">예상 비용</span>
+                            <span class="font-bold text-gray-800">₩7,000,000</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600" data-i18n="treatmentPlans.plans.effectiveness">효과</span>
+                            <span class="font-bold text-gray-800">92%</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">BCR Score</span>
+                            <span class="font-bold text-green-600">3.5</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-3" data-i18n="treatmentPlans.plans.treatments">포함 치료</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span data-i18n="treatmentPlans.plans.long.treatment1">모발이식 수술</span>
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span data-i18n="treatmentPlans.plans.long.treatment2">약물치료 (12개월)</span>
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span data-i18n="treatmentPlans.plans.long.treatment3">PRP 치료 (12회)</span>
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span data-i18n="treatmentPlans.plans.long.treatment4">줄기세포치료 (6회)</span>
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span data-i18n="treatmentPlans.plans.long.treatment5">저출력 레이저 (48회)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold py-3 px-6 rounded-lg transition">
+                        <i class="fas fa-star mr-2"></i>
+                        <span data-i18n="treatmentPlans.plans.selectRecommended">추천 플랜 선택</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- BCR Score Explanation -->
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg mb-12">
+                <h3 class="font-bold text-gray-800 mb-2 flex items-center">
+                    <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                    <span data-i18n="treatmentPlans.bcr.title">BCR Score란?</span>
+                </h3>
+                <p class="text-gray-700" data-i18n="treatmentPlans.bcr.description">
+                    Benefit-Cost Ratio(비용 대비 효과 지수)는 치료 비용 대비 기대 효과를 나타내는 지표입니다. 
+                    3.0 이상이면 매우 효율적, 2.0-3.0은 양호, 2.0 미만은 보통 수준입니다.
+                </p>
+            </div>
+
+            <!-- Recovery Timeline -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i class="fas fa-calendar-alt text-purple-600 mr-3"></i>
+                    <span data-i18n="treatmentPlans.timeline.title">회복 일정 시뮬레이션</span>
+                </h2>
+                
+                <div class="relative">
+                    <!-- Timeline -->
+                    <div class="space-y-6">
+                        <!-- Week 1 -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-24 text-right pr-4">
+                                <span class="font-bold text-purple-600">1주차</span>
+                            </div>
+                            <div class="flex-shrink-0 w-4 h-4 bg-purple-600 rounded-full mt-1"></div>
+                            <div class="flex-1 ml-4 pb-8 border-l-2 border-gray-200 pl-4">
+                                <h4 class="font-semibold text-gray-800 mb-1" data-i18n="treatmentPlans.timeline.week1.title">수술 직후</h4>
+                                <div class="text-sm text-gray-600 mb-2">
+                                    <span data-i18n="treatmentPlans.timeline.recovery">회복도:</span> 10%
+                                </div>
+                                <p class="text-sm text-gray-600" data-i18n="treatmentPlans.timeline.week1.symptoms">증상: 부기, 가벼운 통증</p>
+                                <p class="text-sm text-gray-600" data-i18n="treatmentPlans.timeline.week1.activities">활동: 절대 안정</p>
+                            </div>
+                        </div>
+
+                        <!-- Week 2 -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-24 text-right pr-4">
+                                <span class="font-bold text-purple-600">2주차</span>
+                            </div>
+                            <div class="flex-shrink-0 w-4 h-4 bg-purple-500 rounded-full mt-1"></div>
+                            <div class="flex-1 ml-4 pb-8 border-l-2 border-gray-200 pl-4">
+                                <h4 class="font-semibold text-gray-800 mb-1" data-i18n="treatmentPlans.timeline.week2.title">초기 회복</h4>
+                                <div class="text-sm text-gray-600 mb-2">
+                                    <span data-i18n="treatmentPlans.timeline.recovery">회복도:</span> 25%
+                                </div>
+                                <p class="text-sm text-gray-600" data-i18n="treatmentPlans.timeline.week2.symptoms">증상: 가벼운 부기</p>
+                                <p class="text-sm text-gray-600" data-i18n="treatmentPlans.timeline.week2.activities">활동: 가벼운 일상 활동</p>
+                            </div>
+                        </div>
+
+                        <!-- Week 4 -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-24 text-right pr-4">
+                                <span class="font-bold text-blue-600">4주차</span>
+                            </div>
+                            <div class="flex-shrink-0 w-4 h-4 bg-blue-500 rounded-full mt-1"></div>
+                            <div class="flex-1 ml-4 pb-8 border-l-2 border-gray-200 pl-4">
+                                <h4 class="font-semibold text-gray-800 mb-1" data-i18n="treatmentPlans.timeline.week4.title">중기 회복</h4>
+                                <div class="text-sm text-gray-600 mb-2">
+                                    <span data-i18n="treatmentPlans.timeline.recovery">회복도:</span> 50%
+                                </div>
+                                <p class="text-sm text-gray-600" data-i18n="treatmentPlans.timeline.week4.symptoms">증상: 가벼운 가려움</p>
+                                <p class="text-sm text-gray-600" data-i18n="treatmentPlans.timeline.week4.activities">활동: 정상 활동 가능</p>
+                            </div>
+                        </div>
+
+                        <!-- Week 8 -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-24 text-right pr-4">
+                                <span class="font-bold text-green-600">8주차</span>
+                            </div>
+                            <div class="flex-shrink-0 w-4 h-4 bg-green-500 rounded-full mt-1"></div>
+                            <div class="flex-1 ml-4 pb-8 border-l-2 border-gray-200 pl-4">
+                                <h4 class="font-semibold text-gray-800 mb-1" data-i18n="treatmentPlans.timeline.week8.title">후기 회복</h4>
+                                <div class="text-sm text-gray-600 mb-2">
+                                    <span data-i18n="treatmentPlans.timeline.recovery">회복도:</span> 75%
+                                </div>
+                                <p class="text-sm text-gray-600" data-i18n="treatmentPlans.timeline.week8.symptoms">증상: 최소</p>
+                                <p class="text-sm text-gray-600" data-i18n="treatmentPlans.timeline.week8.activities">활동: 모든 활동 가능</p>
+                            </div>
+                        </div>
+
+                        <!-- Week 12 -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-24 text-right pr-4">
+                                <span class="font-bold text-green-600">12주차</span>
+                            </div>
+                            <div class="flex-shrink-0 w-4 h-4 bg-green-600 rounded-full mt-1"></div>
+                            <div class="flex-1 ml-4 pb-8 border-l-2 border-gray-200 pl-4">
+                                <h4 class="font-semibold text-gray-800 mb-1" data-i18n="treatmentPlans.timeline.week12.title">안정기</h4>
+                                <div class="text-sm text-gray-600 mb-2">
+                                    <span data-i18n="treatmentPlans.timeline.recovery">회복도:</span> 90%
+                                </div>
+                                <p class="text-sm text-gray-600" data-i18n="treatmentPlans.timeline.week12.symptoms">증상: 없음</p>
+                                <p class="text-sm text-gray-600" data-i18n="treatmentPlans.timeline.week12.activities">활동: 완전 정상</p>
+                            </div>
+                        </div>
+
+                        <!-- Week 24 -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-24 text-right pr-4">
+                                <span class="font-bold text-green-700">24주차</span>
+                            </div>
+                            <div class="flex-shrink-0 w-4 h-4 bg-green-700 rounded-full mt-1"></div>
+                            <div class="flex-1 ml-4 pl-4">
+                                <h4 class="font-semibold text-gray-800 mb-1" data-i18n="treatmentPlans.timeline.week24.title">최종 결과</h4>
+                                <div class="text-sm text-gray-600 mb-2">
+                                    <span data-i18n="treatmentPlans.timeline.recovery">회복도:</span> 100%
+                                </div>
+                                <p class="text-sm text-gray-600" data-i18n="treatmentPlans.timeline.week24.symptoms">증상: 없음</p>
+                                <p class="text-sm text-gray-600" data-i18n="treatmentPlans.timeline.week24.activities">활동: 완전한 결과 확인</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matched Hospitals -->
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i class="fas fa-hospital text-purple-600 mr-3"></i>
+                    <span data-i18n="treatmentPlans.hospitals.title">추천 병원</span>
+                </h2>
+
+                <div class="space-y-4">
+                    <!-- Hospital 1 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <h3 class="text-xl font-bold text-gray-800 mr-3">강남헤어클리닉</h3>
+                                    <span class="bg-purple-100 text-purple-700 text-xs px-3 py-1 rounded-full font-semibold">
+                                        <span data-i18n="treatmentPlans.hospitals.match">매칭도:</span> 95%
+                                    </span>
+                                </div>
+                                <p class="text-gray-600 mb-3">김○○ 원장 | 경력 15년 | 수술 5,000건</p>
+                                <div class="flex items-center space-x-4 text-sm">
+                                    <span class="flex items-center text-yellow-500">
+                                        <i class="fas fa-star mr-1"></i>
+                                        4.8
+                                    </span>
+                                    <span class="text-gray-600">성공률 95%</span>
+                                    <span class="text-gray-600">모당 ₩3,000</span>
+                                </div>
+                            </div>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg transition">
+                                <span data-i18n="treatmentPlans.hospitals.consultBtn">상담 예약</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Hospital 2 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <h3 class="text-xl font-bold text-gray-800 mr-3">서울모발이식센터</h3>
+                                    <span class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-semibold">
+                                        <span data-i18n="treatmentPlans.hospitals.match">매칭도:</span> 88%
+                                    </span>
+                                </div>
+                                <p class="text-gray-600 mb-3">이○○ 원장 | 경력 12년 | 수술 3,800건</p>
+                                <div class="flex items-center space-x-4 text-sm">
+                                    <span class="flex items-center text-yellow-500">
+                                        <i class="fas fa-star mr-1"></i>
+                                        4.6
+                                    </span>
+                                    <span class="text-gray-600">성공률 93%</span>
+                                    <span class="text-gray-600">모당 ₩2,800</span>
+                                </div>
+                            </div>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg transition">
+                                <span data-i18n="treatmentPlans.hospitals.consultBtn">상담 예약</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Hospital 3 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <h3 class="text-xl font-bold text-gray-800 mr-3">신사탈모클리닉</h3>
+                                    <span class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-semibold">
+                                        <span data-i18n="treatmentPlans.hospitals.match">매칭도:</span> 92%
+                                    </span>
+                                </div>
+                                <p class="text-gray-600 mb-3">박○○ 원장 | 경력 18년 | 수술 6,200건</p>
+                                <div class="flex items-center space-x-4 text-sm">
+                                    <span class="flex items-center text-yellow-500">
+                                        <i class="fas fa-star mr-1"></i>
+                                        4.9
+                                    </span>
+                                    <span class="text-gray-600">성공률 96%</span>
+                                    <span class="text-gray-600">모당 ₩3,500</span>
+                                </div>
+                            </div>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg transition">
+                                <span data-i18n="treatmentPlans.hospitals.consultBtn">상담 예약</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8">
+                    <a href="/hospitals" class="inline-block bg-white hover:bg-gray-50 text-purple-600 border-2 border-purple-600 font-bold py-3 px-8 rounded-lg transition">
+                        <span data-i18n="treatmentPlans.hospitals.viewAllBtn">모든 병원 보기</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="gradient-bg text-white rounded-2xl p-12 text-center mt-12">
+                <h2 class="text-3xl font-bold mb-4" data-i18n="treatmentPlans.cta.title">지금 바로 시작하세요</h2>
+                <p class="text-xl mb-8 opacity-90" data-i18n="treatmentPlans.cta.subtitle">AI 분석으로 당신의 최적 치료 경로를 찾아보세요</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="/diagnosis" class="bg-white text-purple-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg transition">
+                        <i class="fas fa-microscope mr-2"></i>
+                        <span data-i18n="treatmentPlans.cta.diagnosisBtn">AI 진단 시작</span>
+                    </a>
+                    <a href="/simulation" class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-8 rounded-lg transition">
+                        <i class="fas fa-magic mr-2"></i>
+                        <span data-i18n="treatmentPlans.cta.simulationBtn">시뮬레이션 보기</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-12 mt-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <p class="text-gray-400">&copy; 2024 HairSim AI. All rights reserved.</p>
+            </div>
+        </footer>
+    </body>
+    </html>
+  `)
+})
 app.get('/reviews', (c) => {
   return c.html(`
     <!DOCTYPE html>

@@ -5,6 +5,7 @@ const translations = {
       home: '홈',
       diagnosis: 'AI 진단',
       simulation: '시뮬레이션',
+      treatmentPlans: '맞춤 치료',
       hospitals: '병원 매칭',
       reviews: '후기'
     },
@@ -53,6 +54,108 @@ const translations = {
       information: '정보',
       company: '회사',
       copyright: '본 플랫폼의 시뮬레이션 결과는 예측 결과이며 실제 수술 결과를 보장하지 않습니다.'
+    },
+    treatmentPlans: {
+      title: '맞춤 치료 플랜 - HairSim AI',
+      hero: {
+        title: '당신을 위한 맞춤 치료 플랜',
+        subtitle: 'AI 분석 기반 최적의 치료 경로를 찾아드립니다'
+      },
+      analysis: {
+        title: 'AI 진단 결과',
+        stage: '탈모 진행 단계',
+        density: '모낭 밀도',
+        confidence: 'AI 신뢰도',
+        follicles: '필요 모낭수',
+        progressLabel: '탈모 진행도',
+        riskTitle: '진행 위험도: 중등도',
+        riskDesc: '6-12개월 내 적극적인 치료가 권장됩니다'
+      },
+      comparison: {
+        title: '치료 플랜 비교'
+      },
+      plans: {
+        cost: '예상 비용',
+        effectiveness: '효과',
+        treatments: '포함 치료',
+        selectBtn: '선택하기',
+        selectRecommended: '추천 플랜 선택',
+        recommended: '추천',
+        short: {
+          title: '단기 플랜',
+          subtitle: '빠른 개선',
+          treatment1: '약물치료 (피나스테리드)',
+          treatment2: '메조테라피 (6회)',
+          treatment3: 'PRP 치료 (3회)'
+        },
+        medium: {
+          title: '중기 플랜',
+          subtitle: '균형잡힌 치료',
+          treatment1: '약물치료 (복합)',
+          treatment2: '메조테라피 (12회)',
+          treatment3: 'PRP 치료 (6회)',
+          treatment4: '저출력 레이저 (24회)'
+        },
+        long: {
+          title: '장기 플랜',
+          subtitle: '최고의 결과',
+          treatment1: '모발이식 수술',
+          treatment2: '약물치료 (12개월)',
+          treatment3: 'PRP 치료 (12회)',
+          treatment4: '줄기세포치료 (6회)',
+          treatment5: '저출력 레이저 (48회)'
+        }
+      },
+      bcr: {
+        title: 'BCR Score란?',
+        description: 'Benefit-Cost Ratio(비용 대비 효과 지수)는 치료 비용 대비 기대 효과를 나타내는 지표입니다. 3.0 이상이면 매우 효율적, 2.0-3.0은 양호, 2.0 미만은 보통 수준입니다.'
+      },
+      timeline: {
+        title: '회복 일정 시뮬레이션',
+        recovery: '회복도',
+        week1: {
+          title: '수술 직후',
+          symptoms: '증상: 부기, 가벼운 통증',
+          activities: '활동: 절대 안정'
+        },
+        week2: {
+          title: '초기 회복',
+          symptoms: '증상: 가벼운 부기',
+          activities: '활동: 가벼운 일상 활동'
+        },
+        week4: {
+          title: '중기 회복',
+          symptoms: '증상: 가벼운 가려움',
+          activities: '활동: 정상 활동 가능'
+        },
+        week8: {
+          title: '후기 회복',
+          symptoms: '증상: 최소',
+          activities: '활동: 모든 활동 가능'
+        },
+        week12: {
+          title: '안정기',
+          symptoms: '증상: 없음',
+          activities: '활동: 완전 정상'
+        },
+        week24: {
+          title: '최종 결과',
+          symptoms: '증상: 없음',
+          activities: '활동: 완전한 결과 확인'
+        }
+      },
+      hospitals: {
+        title: '추천 병원',
+        match: '매칭도',
+        consultBtn: '상담 예약',
+        viewAllBtn: '모든 병원 보기'
+      },
+      cta: {
+        title: '지금 바로 시작하세요',
+        subtitle: 'AI 분석으로 당신의 최적 치료 경로를 찾아보세요',
+        diagnosisBtn: 'AI 진단 시작',
+        simulationBtn: '시뮬레이션 보기'
+      }
     }
   },
   en: {
@@ -60,6 +163,7 @@ const translations = {
       home: 'Home',
       diagnosis: 'AI Diagnosis',
       simulation: 'Simulation',
+      treatmentPlans: 'Treatment Plans',
       hospitals: 'Hospitals',
       reviews: 'Reviews'
     },
@@ -108,6 +212,108 @@ const translations = {
       information: 'Information',
       company: 'Company',
       copyright: 'Simulation results are predictions and do not guarantee actual surgical outcomes.'
+    },
+    treatmentPlans: {
+      title: 'Treatment Plans - HairSim AI',
+      hero: {
+        title: 'Your Personalized Treatment Plan',
+        subtitle: 'Find the optimal treatment path based on AI analysis'
+      },
+      analysis: {
+        title: 'AI Diagnosis Results',
+        stage: 'Hair Loss Stage',
+        density: 'Follicle Density',
+        confidence: 'AI Confidence',
+        follicles: 'Follicles Needed',
+        progressLabel: 'Hair Loss Progress',
+        riskTitle: 'Risk Level: Moderate',
+        riskDesc: 'Active treatment recommended within 6-12 months'
+      },
+      comparison: {
+        title: 'Treatment Plan Comparison'
+      },
+      plans: {
+        cost: 'Estimated Cost',
+        effectiveness: 'Effectiveness',
+        treatments: 'Included Treatments',
+        selectBtn: 'Select',
+        selectRecommended: 'Select Recommended Plan',
+        recommended: 'Recommended',
+        short: {
+          title: 'Short-term Plan',
+          subtitle: 'Quick Improvement',
+          treatment1: 'Medication (Finasteride)',
+          treatment2: 'Mesotherapy (6 sessions)',
+          treatment3: 'PRP Treatment (3 sessions)'
+        },
+        medium: {
+          title: 'Mid-term Plan',
+          subtitle: 'Balanced Treatment',
+          treatment1: 'Medication (Combined)',
+          treatment2: 'Mesotherapy (12 sessions)',
+          treatment3: 'PRP Treatment (6 sessions)',
+          treatment4: 'LLLT (24 sessions)'
+        },
+        long: {
+          title: 'Long-term Plan',
+          subtitle: 'Best Results',
+          treatment1: 'Hair Transplant Surgery',
+          treatment2: 'Medication (12 months)',
+          treatment3: 'PRP Treatment (12 sessions)',
+          treatment4: 'Stem Cell Therapy (6 sessions)',
+          treatment5: 'LLLT (48 sessions)'
+        }
+      },
+      bcr: {
+        title: 'What is BCR Score?',
+        description: 'Benefit-Cost Ratio indicates the expected benefit relative to treatment cost. 3.0+ is highly efficient, 2.0-3.0 is good, below 2.0 is average.'
+      },
+      timeline: {
+        title: 'Recovery Timeline Simulation',
+        recovery: 'Recovery',
+        week1: {
+          title: 'Post-Surgery',
+          symptoms: 'Symptoms: Swelling, mild pain',
+          activities: 'Activity: Complete rest'
+        },
+        week2: {
+          title: 'Early Recovery',
+          symptoms: 'Symptoms: Mild swelling',
+          activities: 'Activity: Light daily activities'
+        },
+        week4: {
+          title: 'Mid Recovery',
+          symptoms: 'Symptoms: Mild itching',
+          activities: 'Activity: Normal activities'
+        },
+        week8: {
+          title: 'Late Recovery',
+          symptoms: 'Symptoms: Minimal',
+          activities: 'Activity: All activities'
+        },
+        week12: {
+          title: 'Stable Phase',
+          symptoms: 'Symptoms: None',
+          activities: 'Activity: Fully normal'
+        },
+        week24: {
+          title: 'Final Results',
+          symptoms: 'Symptoms: None',
+          activities: 'Activity: Complete results visible'
+        }
+      },
+      hospitals: {
+        title: 'Recommended Hospitals',
+        match: 'Match',
+        consultBtn: 'Book Consultation',
+        viewAllBtn: 'View All Hospitals'
+      },
+      cta: {
+        title: 'Start Now',
+        subtitle: 'Find your optimal treatment path with AI analysis',
+        diagnosisBtn: 'Start AI Diagnosis',
+        simulationBtn: 'View Simulation'
+      }
     }
   },
   zh: {
